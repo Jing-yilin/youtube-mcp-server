@@ -1,11 +1,11 @@
 {
-  "name": "zubeid-youtube-mcp-server",
+  "name": "@yilin-jing/youtube-mcp-server",
   "version": "1.0.0",
-  "description": "YouTube MCP Server Implementation",
+  "description": "YouTube MCP Server Implementation with SDK 1.23 support",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "zubeid-youtube-mcp-server": "dist/cli.js"
+    "youtube-mcp-server": "dist/cli.js"
   },
   "files": [
     "dist",
@@ -41,14 +41,14 @@
     "claude",
     "anthropic"
   ],
-  "author": "Zubeid Hendricks",
+  "author": "Yilin Jing",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ZubeidHendricks/youtube-mcp-server.git"
+    "url": "git+https://github.com/Jing-yilin/youtube-mcp-server.git"
   },
   "bugs": {
-    "url": "https://github.com/ZubeidHendricks/youtube-mcp-server/issues"
+    "url": "https://github.com/Jing-yilin/youtube-mcp-server/issues"
   },
-  "homepage": "https://github.com/ZubeidHendricks/youtube-mcp-server#readme"
+  "homepage": "https://github.com/Jing-yilin/youtube-mcp-server#readme"
 }

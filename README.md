@@ -1,7 +1,8 @@
 # YouTube MCP Server
-[![smithery badge](https://smithery.ai/badge/@ZubeidHendricks/youtube)](https://smithery.ai/server/@ZubeidHendricks/youtube)
 
-A Model Context Protocol (MCP) server implementation for YouTube, enabling AI language models to interact with YouTube content through a standardized interface.
+[![npm version](https://img.shields.io/npm/v/@yilin-jing/youtube-mcp-server.svg)](https://www.npmjs.com/package/@yilin-jing/youtube-mcp-server)
+
+A Model Context Protocol (MCP) server implementation for YouTube, enabling AI language models to interact with YouTube content through a standardized interface. Updated to support MCP SDK 1.23.
 
 ## Features
 
@@ -26,8 +27,7 @@ A Model Context Protocol (MCP) server implementation for YouTube, enabling AI la
 ### Playlist Management
 * List playlist items
 * Get playlist details
-* Search within playlists
-* Get playlist video transcripts
+* Search playlists
 
 ## Installation
 
@@ -35,7 +35,7 @@ A Model Context Protocol (MCP) server implementation for YouTube, enabling AI la
 
 1. Install the package:
 ```bash
-npm install -g zubeid-youtube-mcp-server
+npm install -g @yilin-jing/youtube-mcp-server
 ```
 
 2. Add to your Claude Desktop configuration (`~/Library/Application Support/Claude/claude_desktop_config.json` on macOS or `%APPDATA%\Claude\claude_desktop_config.json` on Windows):
@@ -43,8 +43,8 @@ npm install -g zubeid-youtube-mcp-server
 ```json
 {
   "mcpServers": {
-    "zubeid-youtube-mcp-server": {
-      "command": "zubeid-youtube-mcp-server",
+    "youtube": {
+      "command": "youtube-mcp-server",
       "env": {
         "YOUTUBE_API_KEY": "your_youtube_api_key_here"
       }
@@ -62,7 +62,7 @@ Add this to your Claude Desktop configuration:
   "mcpServers": {
     "youtube": {
       "command": "npx",
-      "args": ["-y", "zubeid-youtube-mcp-server"],
+      "args": ["-y", "@yilin-jing/youtube-mcp-server"],
       "env": {
         "YOUTUBE_API_KEY": "your_youtube_api_key_here"
       }
@@ -71,83 +71,31 @@ Add this to your Claude Desktop configuration:
 }
 ```
 
-### Installing via Smithery
-
-To install YouTube MCP Server for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@ZubeidHendricks/youtube):
-
-```bash
-npx -y @smithery/cli install @ZubeidHendricks/youtube --client claude
-```
-
 ## Configuration
+
 Set the following environment variables:
 * `YOUTUBE_API_KEY`: Your YouTube Data API key (required)
 * `YOUTUBE_TRANSCRIPT_LANG`: Default language for transcripts (optional, defaults to 'en')
-### Using with VS Code
 
-For one-click installation, click one of the install buttons below:
-
-[![Install with NPX in VS Code](https://img.shields.io/badge/VS_Code-NPM-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=youtube&config=%7B%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22zubeid-youtube-mcp-server%22%5D%2C%22env%22%3A%7B%22YOUTUBE_API_KEY%22%3A%22%24%7Binput%3AapiKey%7D%22%7D%7D&inputs=%5B%7B%22type%22%3A%22promptString%22%2C%22id%22%3A%22apiKey%22%2C%22description%22%3A%22YouTube+API+Key%22%2C%22password%22%3Atrue%7D%5D) [![Install with NPX in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-NPM-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=youtube&config=%7B%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22zubeid-youtube-mcp-server%22%5D%2C%22env%22%3A%7B%22YOUTUBE_API_KEY%22%3A%22%24%7Binput%3AapiKey%7D%22%7D%7D&inputs=%5B%7B%22type%22%3A%22promptString%22%2C%22id%22%3A%22apiKey%22%2C%22description%22%3A%22YouTube+API+Key%22%2C%22password%22%3Atrue%7D%5D&quality=insiders)
-
-### Manual Installation
-
-If you prefer manual installation, first check the install buttons at the top of this section. Otherwise, follow these steps:
-
-Add the following JSON block to your User Settings (JSON) file in VS Code. You can do this by pressing `Ctrl + Shift + P` and typing `Preferences: Open User Settings (JSON)`.
-
-```json
-{
-  "mcp": {
-    "inputs": [
-      {
-        "type": "promptString",
-        "id": "apiKey",
-        "description": "YouTube API Key",
-        "password": true
-      }
-    ],
-    "servers": {
-      "youtube": {
-        "command": "npx",
-        "args": ["-y", "zubeid-youtube-mcp-server"],
-        "env": {
-          "YOUTUBE_API_KEY": "${input:apiKey}"
-        }
-      }
-    }
-  }
-}
-```
-
-Optionally, you can add it to a file called `.vscode/mcp.json` in your workspace:
-
-```json
-{
-  "inputs": [
-    {
-      "type": "promptString",
-      "id": "apiKey",
-      "description": "YouTube API Key",
-      "password": true
-    }
-  ],
-  "servers": {
-    "youtube": {
-      "command": "npx",
-      "args": ["-y", "zubeid-youtube-mcp-server"],
-      "env": {
-        "YOUTUBE_API_KEY": "${input:apiKey}"
-      }
-    }
-  }
-}
-```
 ## YouTube API Setup
-1. Go to Google Cloud Console
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com/)
 2. Create a new project or select an existing one
 3. Enable the YouTube Data API v3
 4. Create API credentials (API key)
 5. Copy the API key for configuration
+
+## Available Tools
+
+| Tool | Description |
+|------|-------------|
+| `videos_getVideo` | Get detailed information about a YouTube video |
+| `videos_searchVideos` | Search for videos on YouTube |
+| `transcripts_getTranscript` | Get the transcript of a YouTube video |
+| `channels_getChannel` | Get information about a YouTube channel |
+| `channels_listVideos` | Get videos from a specific channel |
+| `playlists_getPlaylist` | Get information about a YouTube playlist |
+| `playlists_getPlaylistItems` | Get videos in a YouTube playlist |
 
 ## Examples
 
@@ -155,20 +103,24 @@ Optionally, you can add it to a file called `.vscode/mcp.json` in your workspace
 
 ```javascript
 // Get video details
-const video = await youtube.videos.getVideo({
-  videoId: "video-id"
-});
-
-// Get video transcript
-const transcript = await youtube.transcripts.getTranscript({
-  videoId: "video-id",
-  language: "en"
+const video = await youtube.videos_getVideo({
+  videoId: "dQw4w9WgXcQ"
 });
 
 // Search videos
-const searchResults = await youtube.videos.searchVideos({
-  query: "search term",
+const searchResults = await youtube.videos_searchVideos({
+  query: "TypeScript tutorial",
   maxResults: 10
+});
+```
+
+### Managing Transcripts
+
+```javascript
+// Get video transcript
+const transcript = await youtube.transcripts_getTranscript({
+  videoId: "dQw4w9WgXcQ",
+  language: "en"
 });
 ```
 
@@ -176,13 +128,13 @@ const searchResults = await youtube.videos.searchVideos({
 
 ```javascript
 // Get channel details
-const channel = await youtube.channels.getChannel({
-  channelId: "channel-id"
+const channel = await youtube.channels_getChannel({
+  channelId: "UC_x5XG1OV2P6uZZ5FSM9Ttw"
 });
 
 // List channel videos
-const videos = await youtube.channels.listVideos({
-  channelId: "channel-id",
+const videos = await youtube.channels_listVideos({
+  channelId: "UC_x5XG1OV2P6uZZ5FSM9Ttw",
   maxResults: 50
 });
 ```
@@ -191,14 +143,14 @@ const videos = await youtube.channels.listVideos({
 
 ```javascript
 // Get playlist items
-const playlistItems = await youtube.playlists.getPlaylistItems({
-  playlistId: "playlist-id",
+const playlistItems = await youtube.playlists_getPlaylistItems({
+  playlistId: "PLrAXtmErZgOeiKm4sgNOknGvNjby9efdf",
   maxResults: 50
 });
 
 // Get playlist details
-const playlist = await youtube.playlists.getPlaylist({
-  playlistId: "playlist-id"
+const playlist = await youtube.playlists_getPlaylist({
+  playlistId: "PLrAXtmErZgOeiKm4sgNOknGvNjby9efdf"
 });
 ```
 
@@ -207,19 +159,32 @@ const playlist = await youtube.playlists.getPlaylist({
 ```bash
 # Install dependencies
 npm install
-
-# Run tests
-npm test
+# or
+bun install
 
 # Build
 npm run build
 
-# Lint
-npm run lint
+# Run tests
+bun test
+
+# Start server
+npm start
 ```
 
-## Contributing
-See CONTRIBUTING.md for information about contributing to this repository.
+## Testing
+
+This project includes 50 comprehensive tests covering all services:
+
+```bash
+# Run tests with bun
+YOUTUBE_API_KEY="your_api_key" bun test
+```
 
 ## License
+
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Credits
+
+Originally forked from [ZubeidHendricks/youtube-mcp-server](https://github.com/ZubeidHendricks/youtube-mcp-server), updated with MCP SDK 1.23 support and comprehensive test coverage.
