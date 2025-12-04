@@ -1,7 +1,7 @@
 {
   "name": "@yilin-jing/youtube-mcp-server",
-  "version": "1.0.0",
-  "description": "YouTube MCP Server Implementation with SDK 1.23 support",
+  "version": "1.2.0",
+  "description": "YouTube MCP Server with TOON format for 90%+ token savings",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
@@ -21,9 +21,10 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.23.0",
+    "@toon-format/toon": "^2.0.1",
     "googleapis": "^129.0.0",
-    "ytdl-core": "^4.11.5",
     "youtube-transcript": "^1.0.6",
+    "ytdl-core": "^4.11.5",
     "zod": "^3.23.0"
   },
   "devDependencies": {
@@ -39,7 +40,9 @@
     "model-context-protocol",
     "ai",
     "claude",
-    "anthropic"
+    "anthropic",
+    "toon",
+    "token-efficient"
   ],
   "author": "Yilin Jing",
   "license": "MIT",
