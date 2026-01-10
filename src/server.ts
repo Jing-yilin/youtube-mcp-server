@@ -8,6 +8,7 @@ import { VideoService } from './services/video.js';
 import { TranscriptService } from './services/transcript.js';
 import { PlaylistService } from './services/playlist.js';
 import { ChannelService } from './services/channel.js';
+import { CommentService } from './services/comment.js';
 import { DataCleaners } from './cleaners.js';
 
 function saveData(data: any, dir: string, toolName: string): string {
@@ -36,13 +37,14 @@ function formatResponse(cleanedData: any, options: { saveDir?: string; toolName?
 export async function startMcpServer() {
     const server = new McpServer({
         name: 'youtube-mcp-server',
-        version: '1.2.0',
+        version: '1.3.0',
     });
 
     const videoService = new VideoService();
     const transcriptService = new TranscriptService();
     const playlistService = new PlaylistService();
     const channelService = new ChannelService();
+    const commentService = new CommentService();
 
     server.tool(
         'videos_getVideo',
@@ -144,6 +146,24 @@ export async function startMcpServer() {
             const result = await playlistService.getPlaylistItems({ playlistId, maxResults });
             const cleaned = DataCleaners.cleanPlaylistItems(result);
             return formatResponse(cleaned, { ...(save_dir && { saveDir: save_dir }), toolName: 'playlists_getPlaylistItems' });
+        }
+    );
+
+    server.tool(
+        'comments_getComments',
+        'Get video comments. Returns cleaned data in TOON format.',
+        {
+            videoId: z.string().describe('The YouTube video ID'),
+            maxResults: z.number().optional().describe('Max results (1-100, default: 100)'),
+            order: z.enum(['time', 'relevance']).optional().describe('Sort order (default: relevance)'),
+            pageToken: z.string().optional().describe('Page token for pagination'),
+            textFormat: z.enum(['html', 'plainText']).optional().describe('Text format (default: plainText)'),
+            save_dir: z.string().optional().describe('Directory to save cleaned JSON'),
+        },
+        async ({ videoId, maxResults, order, pageToken, textFormat, save_dir }) => {
+            const result = await commentService.getComments({ videoId, maxResults, order, pageToken, textFormat });
+            const cleaned = DataCleaners.cleanComments(result);
+            return formatResponse(cleaned, { ...(save_dir && { saveDir: save_dir }), toolName: 'comments_getComments' });
         }
     );
 

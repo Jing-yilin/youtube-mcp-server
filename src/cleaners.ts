@@ -107,4 +107,39 @@ export const DataCleaners = {
     if (!Array.isArray(items)) return [];
     return items.map(DataCleaners.cleanPlaylistItem).filter(Boolean);
   },
+
+  cleanComment: (item: any): any => {
+    if (!item) return null;
+    const snippet = item.snippet || {};
+    const topComment = snippet.topLevelComment?.snippet || {};
+
+    return {
+      id: item.id,
+      author: topComment.authorDisplayName,
+      authorChannelId: topComment.authorChannelId?.value,
+      text: topComment.textDisplay,
+      likes: topComment.likeCount ? parseInt(topComment.likeCount) : 0,
+      published: topComment.publishedAt,
+      updated: topComment.updatedAt,
+      replyCount: snippet.totalReplyCount || 0,
+      replies: item.replies?.comments?.map((reply: any) => ({
+        id: reply.id,
+        author: reply.snippet?.authorDisplayName,
+        authorChannelId: reply.snippet?.authorChannelId?.value,
+        text: reply.snippet?.textDisplay,
+        likes: reply.snippet?.likeCount ? parseInt(reply.snippet.likeCount) : 0,
+        published: reply.snippet?.publishedAt,
+      })) || [],
+    };
+  },
+
+  cleanComments: (result: any): any => {
+    if (!result) return { comments: [], nextPageToken: null };
+    const items = result.items || [];
+    return {
+      comments: items.map(DataCleaners.cleanComment).filter(Boolean),
+      nextPageToken: result.nextPageToken || null,
+      totalResults: result.pageInfo?.totalResults,
+    };
+  },
 };
